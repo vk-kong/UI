@@ -9,6 +9,7 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState('local');
   const [selectedAddons, setSelectedAddons] = useState([]);
   const [deploymentStatus, setDeploymentStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [cloudConfig, setCloudConfig] = useState({
     provider: 'aws',
     region: '',
@@ -46,10 +47,12 @@ function Dashboard() {
 
   const handleCloudDeploy = () => {
     if (!cloudConfig.region || !cloudConfig.instanceType) {
-      alert('Please fill in all cloud configuration fields');
+      setErrorMessage('Please fill in all cloud configuration fields');
+      setTimeout(() => setErrorMessage(''), 5000);
       return;
     }
     
+    setErrorMessage('');
     setDeploymentStatus('deploying');
     
     // Simulate cloud deployment
@@ -108,8 +111,7 @@ function Dashboard() {
                     <input 
                       type="checkbox" 
                       checked={selectedAddons.includes(addon.id)}
-                      onChange={() => {}}
-                      onClick={(e) => e.stopPropagation()}
+                      onChange={() => handleAddonToggle(addon.id)}
                     />
                   </div>
                   <div className="addon-info">
@@ -184,6 +186,12 @@ function Dashboard() {
                 <p><strong>Provider:</strong> {cloudConfig.provider.toUpperCase()}</p>
                 {cloudConfig.region && <p><strong>Region:</strong> {cloudConfig.region}</p>}
               </div>
+
+              {errorMessage && (
+                <div className="error-message">
+                  {errorMessage}
+                </div>
+              )}
 
               <button 
                 onClick={handleCloudDeploy}

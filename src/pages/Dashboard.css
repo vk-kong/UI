@@ -205,6 +205,16 @@
   font-size: 0.95rem;
 }
 
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
 .deploy-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
