@@ -98,15 +98,26 @@ print_status "Copying application files..."
 # Get the script directory (project root)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Verify required files/directories exist
-if [ ! -d "$SCRIPT_DIR/backend" ]; then
-    print_error "Backend directory not found at $SCRIPT_DIR/backend"
+# Find backend directory (case-insensitive)
+BACKEND_DIR=""
+if [ -d "$SCRIPT_DIR/backend" ]; then
+    BACKEND_DIR="$SCRIPT_DIR/backend"
+elif [ -d "$SCRIPT_DIR/Backend" ]; then
+    BACKEND_DIR="$SCRIPT_DIR/Backend"
+else
+    print_error "Backend directory not found (checked: backend, Backend)"
     print_error "Please make sure you're running this script from the project root directory"
     exit 1
 fi
 
-if [ ! -d "$SCRIPT_DIR/frontend" ]; then
-    print_error "Frontend directory not found at $SCRIPT_DIR/frontend"
+# Find frontend directory (case-insensitive)
+FRONTEND_DIR=""
+if [ -d "$SCRIPT_DIR/frontend" ]; then
+    FRONTEND_DIR="$SCRIPT_DIR/frontend"
+elif [ -d "$SCRIPT_DIR/Frontend" ]; then
+    FRONTEND_DIR="$SCRIPT_DIR/Frontend"
+else
+    print_error "Frontend directory not found (checked: frontend, Frontend)"
     print_error "Please make sure you're running this script from the project root directory"
     exit 1
 fi
@@ -118,19 +129,23 @@ if [ ! -f "$SCRIPT_DIR/docker-compose.yml" ]; then
 fi
 
 print_status "Source directory: $SCRIPT_DIR"
+print_status "Backend directory: $BACKEND_DIR"
+print_status "Frontend directory: $FRONTEND_DIR"
 print_status "Target directory: $APP_DIR"
 
 if [ -d "$APP_DIR/backend" ]; then
     print_warning "Application directory already exists. Updating files..."
 fi
 
-# Copy all files to app directory
-cp -r $SCRIPT_DIR/backend $APP_DIR/
-cp -r $SCRIPT_DIR/frontend $APP_DIR/
+# Copy all files to app directory (always use lowercase for target)
+cp -r "$BACKEND_DIR" $APP_DIR/backend
+cp -r "$FRONTEND_DIR" $APP_DIR/frontend
 cp $SCRIPT_DIR/docker-compose.yml $APP_DIR/
 cp $SCRIPT_DIR/ecosystem.config.js $APP_DIR/
 mkdir -p $APP_DIR/nginx
-cp -r $SCRIPT_DIR/nginx/* $APP_DIR/nginx/
+if [ -d "$SCRIPT_DIR/nginx" ]; then
+    cp -r $SCRIPT_DIR/nginx/* $APP_DIR/nginx/
+fi
 
 # Step 8: Set up PostgreSQL with Docker Compose
 print_status "Setting up PostgreSQL with Docker Compose..."
