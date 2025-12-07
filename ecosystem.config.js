@@ -1,15 +1,14 @@
 export default {
   apps: [{
     name: 'kong-deploy-backend',
-    script: './backend/server.js',
-    cwd: '/var/www/kong-deploy',
+    script: '/var/www/kong-deploy/backend/server.js',
     instances: 1,
     exec_mode: 'fork',
     env: {
       NODE_ENV: 'production',
       PORT: 3000
     },
-    env_file: './backend/.env.production',
+    env_file: '/var/www/kong-deploy/backend/.env.production',
     error_file: '/var/log/pm2/kong-deploy-backend-error.log',
     out_file: '/var/log/pm2/kong-deploy-backend-out.log',
     log_date_format: 'YYYY-MM-DD HH:mm:ss Z',

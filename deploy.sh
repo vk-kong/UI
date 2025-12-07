@@ -189,7 +189,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=kong
 DB_USER=kong
-DB_PASSWORD=Kong@123
+DB_PASSWORD=Kong@123..
 
 # JWT Configuration
 JWT_SECRET=$(openssl rand -base64 32)
@@ -236,7 +236,7 @@ nginx -t
 print_status "Starting backend with PM2..."
 cd $APP_DIR
 pm2 delete kong-deploy-backend 2>/dev/null || true
-pm2 start ecosystem.config.js
+pm2 start $APP_DIR/ecosystem.config.js
 pm2 save
 pm2 startup systemd -u root --hp /root || print_warning "PM2 startup command may need manual setup"
 
