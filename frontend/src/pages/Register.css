@@ -1,4 +1,4 @@
-.login-container {
+.register-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.login-box {
+.register-box {
   background: white;
   padding: 2.5rem;
   border-radius: 12px;
@@ -15,24 +15,24 @@
   max-width: 420px;
 }
 
-.login-header {
+.register-header {
   text-align: center;
   margin-bottom: 2rem;
 }
 
-.login-header h1 {
+.register-header h1 {
   color: #333;
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
 }
 
-.login-header p {
+.register-header p {
   color: #666;
   margin: 0;
   font-size: 0.95rem;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -72,7 +72,7 @@
   text-align: center;
 }
 
-.login-button {
+.register-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 0.875rem;
@@ -84,32 +84,38 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.login-button:hover {
+.register-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-.login-button:active {
+.register-button:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.login-footer {
+.register-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.register-footer {
   text-align: center;
   margin-top: 1rem;
 }
 
-.login-footer p {
+.register-footer p {
   color: #666;
   font-size: 0.9rem;
   margin: 0;
 }
 
-.login-footer a {
+.register-footer a {
   color: #667eea;
   text-decoration: none;
   font-weight: 500;
 }
 
-.login-footer a:hover {
+.register-footer a:hover {
   text-decoration: underline;
 }
+

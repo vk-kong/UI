@@ -220,17 +220,26 @@ if [ -f "migrations/run.js" ]; then
     node migrations/run.js || print_warning "Migration may have failed or already run"
 fi
 
-# Step 11: Build frontend
+# Step 11: Create default admin user
+print_status "Creating default admin user..."
+cd $APP_DIR/backend
+if [ -f "scripts/create-admin-user.js" ]; then
+    node scripts/create-admin-user.js || print_warning "Admin user creation may have failed or user already exists"
+else
+    print_warning "Admin user creation script not found"
+fi
+
+# Step 12: Build frontend
 print_status "Building frontend..."
 cd $APP_DIR/frontend
 npm install
 # Create frontend .env.production
 cat > $APP_DIR/frontend/.env.production << EOF
-VITE_API_URL=https://$DOMAIN/api
+VITE_API_URL=/api
 EOF
 npm run build
 
-# Step 12: Configure Nginx
+# Step 13: Configure Nginx
 print_status "Configuring Nginx..."
 # Copy nginx configuration
 cp $APP_DIR/nginx/nginx.conf /etc/nginx/nginx.conf
@@ -243,7 +252,7 @@ rm -f /etc/nginx/sites-enabled/default
 # Test nginx configuration
 nginx -t
 
-# Step 13: Start backend with PM2
+# Step 14: Start backend with PM2
 print_status "Starting backend with PM2..."
 cd $APP_DIR
 pm2 delete kong-deploy-backend 2>/dev/null || true
@@ -251,7 +260,7 @@ pm2 start $APP_DIR/ecosystem.config.js
 pm2 save
 pm2 startup systemd -u root --hp /root || print_warning "PM2 startup command may need manual setup"
 
-# Step 14: Configure firewall
+# Step 15: Configure firewall
 print_status "Configuring firewall..."
 if command -v ufw &> /dev/null; then
     ufw allow 22/tcp
@@ -262,7 +271,7 @@ else
     print_warning "UFW not found, please configure firewall manually"
 fi
 
-# Step 15: Start Nginx (before SSL setup)
+# Step 16: Start Nginx (before SSL setup)
 print_status "Starting Nginx..."
 systemctl restart nginx
 systemctl enable nginx

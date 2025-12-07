@@ -2,14 +2,14 @@ import pool from '../config/database.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
 
 class User {
-  static async create(username, email, password) {
+  static async create(username, email, password, isAdmin = false) {
     const hashedPassword = await hashPassword(password);
     const query = `
-      INSERT INTO users (username, email, password_hash)
-      VALUES ($1, $2, $3)
-      RETURNING id, username, email, created_at
+      INSERT INTO users (username, email, password_hash, is_admin)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, username, email, is_admin, created_at
     `;
-    const result = await pool.query(query, [username, email, hashedPassword]);
+    const result = await pool.query(query, [username, email, hashedPassword, isAdmin]);
     return result.rows[0];
   }
 
@@ -26,7 +26,7 @@ class User {
   }
 
   static async findById(id) {
-    const query = 'SELECT id, username, email, created_at FROM users WHERE id = $1';
+    const query = 'SELECT id, username, email, is_admin, created_at FROM users WHERE id = $1';
     const result = await pool.query(query, [id]);
     return result.rows[0];
   }
