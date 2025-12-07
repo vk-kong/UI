@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:15-alpine
+    image: postgres:16
     container_name: kong-postgres
     restart: unless-stopped
     environment:
@@ -11,7 +9,7 @@ services:
       POSTGRES_PASSWORD: Kong@123
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
