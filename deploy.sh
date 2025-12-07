@@ -235,7 +235,7 @@ cd $APP_DIR/frontend
 npm install
 # Create frontend .env.production
 cat > $APP_DIR/frontend/.env.production << EOF
-VITE_API_URL=https://$DOMAIN/api
+VITE_API_URL=/api
 EOF
 npm run build
 
