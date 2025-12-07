@@ -234,7 +234,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=kong
 DB_USER=kong
-DB_PASSWORD=Kong@123..
+DB_PASSWORD=Kong@123
 
 JWT_SECRET=<generate-with-openssl-rand-base64-32>
 JWT_EXPIRES_IN=7d
@@ -312,7 +312,7 @@ sudo systemctl reload nginx
 - **Port:** 5432
 - **Database:** kong
 - **Username:** kong
-- **Password:** Kong@123..
+- **Password:** Kong@123
 
 ## Application Structure
 
@@ -327,7 +327,7 @@ sudo systemctl reload nginx
 ## Security Notes
 
 1. **JWT Secret:** The deployment script generates a random JWT secret. For production, ensure it's strong and unique.
-2. **Database Password:** The default password is `Kong@123..`. Consider changing it for production.
+2. **Database Password:** The default password is `Kong@123`. Consider changing it for production.
 3. **Firewall:** UFW is configured to allow only necessary ports (22, 80, 443).
 4. **SSL:** Let's Encrypt certificates auto-renew. Monitor renewal status.
 

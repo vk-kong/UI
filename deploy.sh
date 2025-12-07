@@ -160,7 +160,18 @@ fi
 print_status "Setting up PostgreSQL with Docker Compose..."
 print_status "Using: $DOCKER_COMPOSE_CMD"
 cd $APP_DIR
+
+# Stop and remove containers if they exist
 $DOCKER_COMPOSE_CMD down 2>/dev/null || true
+
+# If volume exists but password changed, remove it to recreate with new password
+if docker volume ls | grep -q "kong-deploy_postgres_data"; then
+    print_warning "Existing PostgreSQL volume found. Removing to ensure password matches..."
+    $DOCKER_COMPOSE_CMD down -v 2>/dev/null || true
+    docker volume rm kong-deploy_postgres_data 2>/dev/null || true
+fi
+
+# Start PostgreSQL container
 $DOCKER_COMPOSE_CMD up -d
 
 # Wait for PostgreSQL to be ready
@@ -189,7 +200,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=kong
 DB_USER=kong
-DB_PASSWORD=Kong@123..
+DB_PASSWORD=Kong@123
 
 # JWT Configuration
 JWT_SECRET=$(openssl rand -base64 32)

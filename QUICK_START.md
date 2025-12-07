@@ -86,7 +86,7 @@ curl http://ec2-3-109-139-48.ap-south-1.compute.amazonaws.com/health
 2. **Database Credentials:**
    - Database: `kong`
    - User: `kong`
-   - Password: `Kong@123..`
+   - Password: `Kong@123`
 
 3. **Application Location:** `/var/www/kong-deploy`
 
