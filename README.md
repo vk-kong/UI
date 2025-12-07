@@ -68,63 +68,99 @@ git clone https://github.com/vk-kong/UI.git
 cd UI
 ```
 
-2. Install dependencies:
+2. Install dependencies for both frontend and backend:
 ```bash
+# Install frontend dependencies
+cd frontend
+npm install
+
+# Install backend dependencies
+cd ../backend
 npm install
 ```
 
 ### Development
 
-Run the development server:
+#### Frontend Development
+
+Run the frontend development server:
 ```bash
+cd frontend
 npm run dev
 ```
 
 The application will be available at `http://localhost:5173/`
 
+#### Backend Development
+
+Run the backend server:
+```bash
+cd backend
+npm run dev
+```
+
+The API will be available at `http://localhost:3000/` (or the port configured in your backend)
+
+The application will be available at `http://localhost:5173/`
+
 ### Building for Production
 
-Build the application:
+Build the frontend application:
 ```bash
+cd frontend
 npm run build
 ```
 
-The built files will be in the `dist` directory.
+The built files will be in the `frontend/dist` directory.
 
 Preview the production build:
 ```bash
+cd frontend
 npm run preview
 ```
 
 ### Linting
 
-Check code quality:
+Check frontend code quality:
 ```bash
+cd frontend
 npm run lint
 ```
 
 ## Project Structure
 
 ```
-├── src/
-│   ├── components/          # Reusable React components
-│   │   └── ProtectedRoute.jsx
-│   ├── contexts/            # React Context providers
-│   │   └── AuthContext.jsx
-│   ├── pages/              # Page components
-│   │   ├── Login.jsx
-│   │   ├── Login.css
-│   │   ├── Dashboard.jsx
-│   │   └── Dashboard.css
-│   ├── App.jsx             # Main application component
-│   ├── App.css             # Global application styles
-│   ├── main.jsx            # Application entry point
-│   └── index.css           # Global CSS reset and base styles
-├── public/                 # Static assets
-├── index.html             # HTML entry point
-├── vite.config.js         # Vite configuration
-├── package.json           # Project dependencies and scripts
-└── README.md             # Project documentation
+├── frontend/               # React frontend application
+│   ├── src/
+│   │   ├── components/          # Reusable React components
+│   │   │   └── ProtectedRoute.jsx
+│   │   ├── contexts/            # React Context providers
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages/              # Page components
+│   │   │   ├── Login.jsx
+│   │   │   ├── Login.css
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── Dashboard.css
+│   │   ├── App.jsx             # Main application component
+│   │   ├── App.css             # Global application styles
+│   │   ├── main.jsx            # Application entry point
+│   │   └── index.css           # Global CSS reset and base styles
+│   ├── public/                 # Static assets
+│   ├── index.html             # HTML entry point
+│   ├── vite.config.js         # Vite configuration
+│   ├── package.json           # Frontend dependencies and scripts
+│   └── eslint.config.js       # ESLint configuration
+├── backend/                # Node.js/Express backend API
+│   ├── config/             # Configuration files
+│   ├── controllers/        # Route controllers
+│   ├── middleware/         # Express middleware
+│   ├── migrations/         # Database migrations
+│   ├── models/             # Data models
+│   ├── routes/             # API routes
+│   ├── utils/              # Utility functions
+│   ├── server.js           # Express server entry point
+│   └── package.json        # Backend dependencies and scripts
+└── README.md               # Project documentation
 ```
 
 ## Usage Guide

@@ -130,7 +130,7 @@ curl -X GET http://localhost:3000/api/auth/me \
 ## Project Structure
 
 ```
-Backend/
+backend/
 ├── config/
 │   └── database.js          # PostgreSQL connection pool
 ├── controllers/
