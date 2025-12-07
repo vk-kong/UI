@@ -20,8 +20,8 @@ sudo apt-get install -y git
 
 **Option A - Git:**
 ```bash
-cd /tmp
-git clone <your-repository-url> UI
+cd /home/ubuntu
+git clone https://github.com/vk-kong/UI.git UI
 cd UI
 ```
 
@@ -30,12 +30,12 @@ On your local machine:
 ```bash
 cd /Users/vk/Desktop
 tar -czf UI.tar.gz UI/
-scp -i your-key.pem UI.tar.gz ubuntu@ec2-3-109-139-48.ap-south-1.compute.amazonaws.com:/tmp/
+scp -i your-key.pem UI.tar.gz ubuntu@ec2-3-109-139-48.ap-south-1.compute.amazonaws.com:/home/ubuntu/
 ```
 
 On EC2:
 ```bash
-cd /tmp
+cd /home/ubuntu
 tar -xzf UI.tar.gz
 cd UI
 ```

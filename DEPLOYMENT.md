@@ -33,8 +33,8 @@ sudo apt-get install -y git
 ### Option A: If your code is in a Git repository
 
 ```bash
-cd /tmp
-git clone <your-repository-url> UI
+cd /home/ubuntu
+git clone https://github.com/vk-kong/UI.git UI
 cd UI
 ```
 
@@ -46,13 +46,13 @@ On your local machine, create a tarball:
 # On your local machine
 cd /Users/vk/Desktop
 tar -czf UI.tar.gz UI/
-scp -i your-key.pem UI.tar.gz ubuntu@ec2-3-109-139-48.ap-south-1.compute.amazonaws.com:/tmp/
+scp -i your-key.pem UI.tar.gz ubuntu@ec2-3-109-139-48.ap-south-1.compute.amazonaws.com:/home/ubuntu/
 ```
 
 Then on EC2:
 
 ```bash
-cd /tmp
+cd /home/ubuntu
 tar -xzf UI.tar.gz
 cd UI
 ```
@@ -60,7 +60,7 @@ cd UI
 ## Step 4: Run the Deployment Script
 
 ```bash
-cd /tmp/UI
+cd /home/ubuntu/UI
 sudo chmod +x deploy.sh
 sudo ./deploy.sh
 ```
@@ -80,7 +80,7 @@ This script will:
 After the deployment script completes, set up HTTPS:
 
 ```bash
-cd /tmp/UI
+cd /home/ubuntu/UI
 sudo chmod +x setup-ssl.sh
 sudo ./setup-ssl.sh
 ```
