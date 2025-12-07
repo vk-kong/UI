@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   apps: [{
     name: 'kong-deploy-backend',
     script: '/var/www/kong-deploy/backend/server.js',

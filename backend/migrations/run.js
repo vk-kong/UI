@@ -11,9 +11,20 @@ const __dirname = path.dirname(__filename);
 const envPath = path.join(__dirname, '..', '.env.production');
 if (fs.existsSync(envPath)) {
   dotenv.config({ path: envPath });
+  console.log('✅ Loaded .env.production from:', envPath);
 } else {
   // Fallback to .env if .env.production doesn't exist
   dotenv.config();
+  console.log('⚠️  Using default .env file');
+}
+
+// Debug: Check if password is loaded (masked for security)
+const dbPassword = process.env.DB_PASSWORD;
+if (dbPassword) {
+  console.log('✅ DB_PASSWORD is set (length:', dbPassword.length, ', type:', typeof dbPassword, ')');
+} else {
+  console.error('❌ DB_PASSWORD is not set!');
+  console.log('Available env vars:', Object.keys(process.env).filter(k => k.startsWith('DB_')));
 }
 
 async function runMigrations() {

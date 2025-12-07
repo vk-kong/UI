@@ -1,7 +1,26 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load .env.production if it exists, otherwise fallback to .env
+// Only load if DB_PASSWORD is not already set (to avoid overriding)
+if (!process.env.DB_PASSWORD) {
+  const envProductionPath = path.join(__dirname, '..', '.env.production');
+  const envPath = path.join(__dirname, '..', '.env');
+
+  if (fs.existsSync(envProductionPath)) {
+    dotenv.config({ path: envProductionPath, override: false });
+  } else if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath, override: false });
+  } else {
+    dotenv.config({ override: false });
+  }
+}
 
 const { Pool } = pg;
 
