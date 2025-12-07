@@ -95,5 +95,17 @@ curl http://ec2-3-109-139-48.ap-south-1.compute.amazonaws.com/health
    - Nginx: `sudo tail -f /var/log/nginx/error.log`
    - Database: `cd /var/www/kong-deploy && sudo docker compose logs postgres`
 
+## Cleanup (If Deployment Fails)
+
+If the deployment fails and you need to start over:
+
+```bash
+cd /home/ubuntu/UI
+sudo chmod +x cleanup.sh
+sudo ./cleanup.sh
+```
+
+This will remove all created resources (containers, processes, configurations) so you can start fresh.
+
 For detailed troubleshooting, see [DEPLOYMENT.md](DEPLOYMENT.md).
 

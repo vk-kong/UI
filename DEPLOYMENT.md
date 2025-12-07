@@ -339,6 +339,27 @@ If you encounter issues:
 3. Check security group settings
 4. Ensure DNS is properly configured
 
+## Cleanup Script
+
+If the deployment fails or you need to start over, use the cleanup script to remove all created resources:
+
+```bash
+cd /home/ubuntu/UI
+sudo chmod +x cleanup.sh
+sudo ./cleanup.sh
+```
+
+The cleanup script will:
+- Stop and remove PM2 processes
+- Stop and remove Docker containers and volumes
+- Remove the application directory (`/var/www/kong-deploy`)
+- Remove Nginx site configuration
+- Optionally remove SSL certificates
+- Optionally remove firewall rules
+- Clean up log files
+
+**Note:** The cleanup script does NOT remove system packages (Node.js, Docker, PM2, Nginx). You'll need to remove those manually if needed.
+
 ## Next Steps
 
 After successful deployment:
