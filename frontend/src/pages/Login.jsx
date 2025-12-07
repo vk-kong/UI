@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
@@ -70,6 +70,11 @@ function Login() {
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
+          <div className="login-footer">
+            <p>
+              Don't have an account? <Link to="/register">Register here</Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>
