@@ -94,12 +94,35 @@ mkdir -p /var/www/html
 
 # Step 7: Copy application files (assuming we're running from the project root)
 print_status "Copying application files..."
-if [ -d "$APP_DIR/backend" ]; then
-    print_warning "Application directory already exists. Updating files..."
-fi
 
 # Get the script directory (project root)
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Verify required files/directories exist
+if [ ! -d "$SCRIPT_DIR/backend" ]; then
+    print_error "Backend directory not found at $SCRIPT_DIR/backend"
+    print_error "Please make sure you're running this script from the project root directory"
+    exit 1
+fi
+
+if [ ! -d "$SCRIPT_DIR/frontend" ]; then
+    print_error "Frontend directory not found at $SCRIPT_DIR/frontend"
+    print_error "Please make sure you're running this script from the project root directory"
+    exit 1
+fi
+
+if [ ! -f "$SCRIPT_DIR/docker-compose.yml" ]; then
+    print_error "docker-compose.yml not found at $SCRIPT_DIR/docker-compose.yml"
+    print_error "Please make sure you're running this script from the project root directory"
+    exit 1
+fi
+
+print_status "Source directory: $SCRIPT_DIR"
+print_status "Target directory: $APP_DIR"
+
+if [ -d "$APP_DIR/backend" ]; then
+    print_warning "Application directory already exists. Updating files..."
+fi
 
 # Copy all files to app directory
 cp -r $SCRIPT_DIR/backend $APP_DIR/

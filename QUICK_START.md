@@ -42,7 +42,10 @@ cd UI
 
 ### 4. Run Deployment Script
 
+**Important:** Make sure you're in the project directory before running the script.
+
 ```bash
+cd /home/ubuntu/UI
 sudo chmod +x deploy.sh
 sudo ./deploy.sh
 ```

@@ -59,11 +59,15 @@ cd UI
 
 ## Step 4: Run the Deployment Script
 
+**Important:** Make sure you're in the project root directory (where `deploy.sh` is located) before running the script.
+
 ```bash
 cd /home/ubuntu/UI
 sudo chmod +x deploy.sh
 sudo ./deploy.sh
 ```
+
+The script will automatically detect its location and copy files from the project directory to `/var/www/kong-deploy`.
 
 This script will:
 - Install Node.js, Docker, Docker Compose, PM2, and Nginx
