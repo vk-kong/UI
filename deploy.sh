@@ -178,15 +178,7 @@ for i in {1..30}; do
     sleep 2
 done
 
-# Step 9: Run database migrations
-print_status "Running database migrations..."
-cd $APP_DIR/backend
-npm install --production
-if [ -f "migrations/run.js" ]; then
-    node migrations/run.js || print_warning "Migration may have failed or already run"
-fi
-
-# Step 10: Create backend .env.production file
+# Step 9: Create backend .env.production file (BEFORE migrations)
 print_status "Creating backend environment file..."
 cat > $APP_DIR/backend/.env.production << EOF
 NODE_ENV=production
@@ -206,6 +198,16 @@ JWT_EXPIRES_IN=7d
 # Frontend URL
 FRONTEND_URL=https://$DOMAIN
 EOF
+
+# Step 10: Run database migrations
+print_status "Running database migrations..."
+cd $APP_DIR/backend
+npm install --production
+if [ -f "migrations/run.js" ]; then
+    # Wait a bit more for database to be fully ready
+    sleep 2
+    node migrations/run.js || print_warning "Migration may have failed or already run"
+fi
 
 # Step 11: Build frontend
 print_status "Building frontend..."
