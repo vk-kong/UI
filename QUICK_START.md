@@ -65,7 +65,7 @@ sudo ./setup-ssl.sh
 # Check services
 pm2 status
 sudo systemctl status nginx
-cd /var/www/kong-deploy && sudo docker-compose ps
+cd /var/www/kong-deploy && sudo docker compose ps
 
 # Test application
 curl http://ec2-3-109-139-48.ap-south-1.compute.amazonaws.com/health
@@ -93,7 +93,7 @@ curl http://ec2-3-109-139-48.ap-south-1.compute.amazonaws.com/health
 4. **Logs:**
    - Backend: `pm2 logs kong-deploy-backend`
    - Nginx: `sudo tail -f /var/log/nginx/error.log`
-   - Database: `cd /var/www/kong-deploy && sudo docker-compose logs postgres`
+   - Database: `cd /var/www/kong-deploy && sudo docker compose logs postgres`
 
 For detailed troubleshooting, see [DEPLOYMENT.md](DEPLOYMENT.md).
 

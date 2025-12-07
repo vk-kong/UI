@@ -113,7 +113,7 @@ sudo systemctl status nginx
 
 # Check PostgreSQL container
 cd /var/www/kong-deploy
-sudo docker-compose ps
+sudo docker compose ps
 ```
 
 ### Test the Application
@@ -166,14 +166,14 @@ sudo netstat -tlnp | grep 3000
 ```bash
 # Check PostgreSQL container
 cd /var/www/kong-deploy
-sudo docker-compose ps
-sudo docker-compose logs postgres
+sudo docker compose ps
+sudo docker compose logs postgres
 
 # Restart PostgreSQL
-sudo docker-compose restart postgres
+sudo docker compose restart postgres
 
 # Test database connection
-sudo docker-compose exec postgres psql -U kong -d kong -c "SELECT version();"
+sudo docker compose exec postgres psql -U kong -d kong -c "SELECT version();"
 ```
 
 ### Nginx Issues
@@ -270,7 +270,7 @@ sudo tail -f /var/log/nginx/error.log
 
 # PostgreSQL logs
 cd /var/www/kong-deploy
-sudo docker-compose logs -f postgres
+sudo docker compose logs -f postgres
 ```
 
 ### Restart Services
@@ -284,7 +284,7 @@ sudo systemctl restart nginx
 
 # Restart PostgreSQL
 cd /var/www/kong-deploy
-sudo docker-compose restart postgres
+sudo docker compose restart postgres
 ```
 
 ### Update Application

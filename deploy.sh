@@ -19,6 +19,15 @@ NC='\033[0m' # No Color
 APP_DIR="/var/www/kong-deploy"
 DOMAIN="ec2-3-109-139-48.ap-south-1.compute.amazonaws.com"
 
+# Detect docker compose command (V2 uses 'docker compose', V1 uses 'docker-compose')
+if docker compose version > /dev/null 2>&1; then
+    DOCKER_COMPOSE_CMD="docker compose"
+elif docker-compose version > /dev/null 2>&1; then
+    DOCKER_COMPOSE_CMD="docker-compose"
+else
+    DOCKER_COMPOSE_CMD="docker compose"  # Default to V2 syntax
+fi
+
 # Function to print colored output
 print_status() {
     echo -e "${GREEN}[INFO]${NC} $1"
@@ -149,15 +158,16 @@ fi
 
 # Step 8: Set up PostgreSQL with Docker Compose
 print_status "Setting up PostgreSQL with Docker Compose..."
+print_status "Using: $DOCKER_COMPOSE_CMD"
 cd $APP_DIR
-docker-compose down 2>/dev/null || true
-docker-compose up -d
+$DOCKER_COMPOSE_CMD down 2>/dev/null || true
+$DOCKER_COMPOSE_CMD up -d
 
 # Wait for PostgreSQL to be ready
 print_status "Waiting for PostgreSQL to be ready..."
 sleep 5
 for i in {1..30}; do
-    if docker-compose exec -T postgres pg_isready -U kong -d kong > /dev/null 2>&1; then
+    if $DOCKER_COMPOSE_CMD exec -T postgres pg_isready -U kong -d kong > /dev/null 2>&1; then
         print_status "PostgreSQL is ready!"
         break
     fi
@@ -259,5 +269,5 @@ echo ""
 print_status "To check application status:"
 echo "  PM2:   pm2 status"
 echo "  Nginx: systemctl status nginx"
-echo "  DB:    docker-compose ps (in $APP_DIR)"
+echo "  DB:    $DOCKER_COMPOSE_CMD ps (in $APP_DIR)"
 
