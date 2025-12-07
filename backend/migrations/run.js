@@ -29,11 +29,25 @@ if (dbPassword) {
 
 async function runMigrations() {
   try {
-    const migrationFile = path.join(__dirname, '001_create_users_table.sql');
-    const sql = fs.readFileSync(migrationFile, 'utf8');
+    // Run all migrations in order
+    const migrations = [
+      '001_create_users_table.sql',
+      '002_add_is_admin_to_users.sql'
+    ];
     
-    await pool.query(sql);
-    console.log('✅ Migration completed successfully');
+    for (const migrationFile of migrations) {
+      const migrationPath = path.join(__dirname, migrationFile);
+      if (fs.existsSync(migrationPath)) {
+        console.log(`Running migration: ${migrationFile}`);
+        const sql = fs.readFileSync(migrationPath, 'utf8');
+        await pool.query(sql);
+        console.log(`✅ ${migrationFile} completed`);
+      } else {
+        console.log(`⚠️  Migration file not found: ${migrationFile}, skipping...`);
+      }
+    }
+    
+    console.log('✅ All migrations completed successfully');
     process.exit(0);
   } catch (error) {
     console.error('❌ Migration failed:', error);

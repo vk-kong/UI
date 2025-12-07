@@ -46,7 +46,8 @@ export const register = async (req, res) => {
       user: {
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        is_admin: user.is_admin || false
       }
     });
   } catch (error) {
@@ -87,7 +88,8 @@ export const login = async (req, res) => {
       user: {
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        is_admin: user.is_admin || false
       }
     });
   } catch (error) {
