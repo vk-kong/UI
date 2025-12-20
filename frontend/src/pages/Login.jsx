@@ -17,7 +17,7 @@ function Login() {
     setLoading(true);
 
     if (!username || !password) {
-      setError('Please enter both username and password');
+      setError('Required fields are missing');
       setLoading(false);
       return;
     }
@@ -27,55 +27,88 @@ function Login() {
       if (success) {
         navigate('/dashboard');
       } else {
-        setError('Invalid credentials. Please try again.');
+        setError('Verification failed. Invalid credentials.');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
-      console.error('Login error:', err);
+      setError('System connection error. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <div className="login-header">
-          <h1>Kong Deploy UI</h1>
-          <p>Environment Deployment Manager</p>
+    <div className="auth-page">
+      <div className="auth-visual-side">
+        <div className="visual-content">
+          <div className="visual-logo">K</div>
+          <h1>Enterprise Orchestration</h1>
+          <p>Seamlessly deploy and manage your Kong gateway infrastructure across any cloud or local environment.</p>
+
+          <div className="visual-features">
+            <div className="feature-item">
+              <span className="feature-icon">⚡</span>
+              <span>Zero-downtime deployments</span>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">🛡️</span>
+              <span>Enterprise-grade security</span>
+            </div>
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
-              autoFocus
-            />
+      </div>
+
+      <div className="auth-form-side">
+        <div className="auth-card">
+          <div className="auth-header">
+            <h2>Welcome Back</h2>
+            <p>Enter your credentials to access the console</p>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-            />
-          </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-          <div className="login-footer">
-            <p>
-              Don't have an account? <Link to="/register">Register here</Link>
-            </p>
-          </div>
-        </form>
+
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group-modern">
+              <label htmlFor="username">Username</label>
+              <div className="input-with-icon">
+                <span className="input-icon">👤</span>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin@enterprise.com"
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div className="form-group-modern">
+              <label htmlFor="password">Password</label>
+              <div className="input-with-icon">
+                <span className="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
+
+            {error && <div className="auth-error">{error}</div>}
+
+            <button type="submit" className="btn-auth" disabled={loading}>
+              {loading ? 'Authenticating...' : 'Sign In'}
+            </button>
+
+            <div className="auth-footer">
+              <p>Need access? <Link to="/register">Contact administrator</Link></p>
+            </div>
+          </form>
+        </div>
+
+        <div className="auth-page-footer">
+          <span>&copy; 2024 Kong Deploy Enterprise. All rights reserved.</span>
+        </div>
       </div>
     </div>
   );

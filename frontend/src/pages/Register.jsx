@@ -18,29 +18,20 @@ function Register() {
     setError('');
     setLoading(true);
 
-    // Validation
     if (!username || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+      setError('All fields are required for verification');
       setLoading(false);
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+    if (password.length < 8) {
+      setError('Security requirement: Password min. 8 characters');
       setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address');
+      setError('Password confirmation mismatch');
       setLoading(false);
       return;
     }
@@ -50,75 +41,116 @@ function Register() {
       if (result.success) {
         navigate('/dashboard');
       } else {
-        setError(result.error || 'Registration failed. Username or email may already be taken.');
+        setError(result.error || 'Identity registration rejected by system');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
-      console.error('Registration error:', err);
+      setError('System connection failure. Contact support.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="register-container">
-      <div className="register-box">
-        <div className="register-header">
-          <h1>Create Account</h1>
-          <p>Sign up for Kong Deploy UI</p>
+    <div className="auth-page">
+      <div className="auth-visual-side">
+        <div className="visual-content">
+          <div className="visual-logo">K</div>
+          <h1>System Enrollment</h1>
+          <p>Create your enterprise credentials to begin orchestrating Kong gateway infrastructure components.</p>
+
+          <div className="visual-features">
+            <div className="feature-item">
+              <span className="feature-icon">🛡️</span>
+              <span>RBAC-enabled access control</span>
+            </div>
+            <div className="feature-item">
+              <span className="feature-icon">🔑</span>
+              <span>Secure identity management</span>
+            </div>
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="register-form">
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
-              autoFocus
-            />
+      </div>
+
+      <div className="auth-form-side">
+        <div className="auth-card">
+          <div className="auth-header">
+            <h2>Account Request</h2>
+            <p>Submit your details for enterprise access</p>
           </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password (min. 6 characters)"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm your password"
-            />
-          </div>
-          {error && <div className="error-message">{error}</div>}
-          <button type="submit" className="register-button" disabled={loading}>
-            {loading ? 'Creating Account...' : 'Register'}
-          </button>
-          <div className="register-footer">
-            <p>
-              Already have an account? <Link to="/">Login here</Link>
-            </p>
-          </div>
-        </form>
+
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group-modern">
+              <label htmlFor="username">Username</label>
+              <div className="input-with-icon">
+                <span className="input-icon">👤</span>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="j.doe"
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div className="form-group-modern">
+              <label htmlFor="email">Work Email</label>
+              <div className="input-with-icon">
+                <span className="input-icon">✉️</span>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="john.doe@enterprise.com"
+                />
+              </div>
+            </div>
+
+            <div className="form-group-modern">
+              <label htmlFor="password">Password</label>
+              <div className="input-with-icon">
+                <span className="input-icon">🔒</span>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Min. 8 characters"
+                />
+              </div>
+            </div>
+
+            <div className="form-group-modern">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <div className="input-with-icon">
+                <span className="input-icon">🔄</span>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter password"
+                />
+              </div>
+            </div>
+
+            {error && <div className="auth-error">{error}</div>}
+
+            <button type="submit" className="btn-auth" disabled={loading}>
+              {loading ? 'Processing Request...' : 'Request Account'}
+            </button>
+
+            <div className="auth-footer">
+              <p>Existing user? <Link to="/">Sign in instead</Link></p>
+            </div>
+          </form>
+        </div>
+
+        <div className="auth-page-footer">
+          <span>&copy; 2024 Kong Deploy Enterprise. All rights reserved.</span>
+        </div>
       </div>
     </div>
   );
